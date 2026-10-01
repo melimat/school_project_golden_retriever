@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zlatý retriever | Nejlepší přítel člověka</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #fffaf0;
+      color: #3d2b1f;
+      line-height: 1.6;
+    }
+
+    /* Navigace */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(61, 43, 31, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 15px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      color: #ffd166;
+      font-size: 1.4rem;
+      font-weight: bold;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 28px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #ffd166;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 20px 80px;
+      background:
+        radial-gradient(circle at 20% 20%, #ffe29a 0, transparent 30%),
+        linear-gradient(135deg, #f6c453, #e89b2c);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "🐾";
+      position: absolute;
+      font-size: 12rem;
+      opacity: 0.08;
+    }
+
+    .hero::before {
+      left: 5%;
+      bottom: 5%;
+      transform: rotate(-20deg);
+    }
+
+    .hero::after {
+      right: 5%;
+      top: 15%;
+      transform: rotate(20deg);
+    }
+
+    .hero-content {
+      max-width: 850px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 8vw, 6rem);
+      color: white;
+      line-height: 1;
+      margin-bottom: 25px;
+      text-shadow: 0 5px 20px rgba(80, 45, 10, 0.2);
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      color: #fff9e8;
+      margin-bottom: 35px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 14px 28px;
+      background: #3d2b1f;
+      color: white;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .button:hover {
+      transform: translateY(-3px);
+      background: #5a3d29;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    /* Obecné sekce */
+    section {
+      padding: 90px 7%;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-title h2 {
+      font-size: 2.8rem;
+      color: #4b3221;
+      margin-bottom: 10px;
+    }
+
+    .section-title p {
+      color: #806b5b;
+    }
+
+    /* Karty */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 22px;
+      box-shadow: 0 10px 30px rgba(85, 58, 35, 0.08);
+      transition: transform 0.3s, box-shadow 0.3s;
+      border: 1px solid #f1dfc1;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 18px 40px rgba(85, 58, 35, 0.14);
+    }
+
+    .card-icon {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      color: #b87419;
+      font-size: 1.4rem;
+    }
+
+    /* O plemeni */
+    .about {
+      background: #fff;
+    }
+
+    .about-container {
+      max-width: 1100px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: center;
+    }
+
+    .about-box {
+      background: #fff8e8;
+      padding: 35px;
+      border-radius: 25px;
+      border-left: 6px solid #e9a52c;
+    }
+
+    .facts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .fact {
+      padding: 20px;
+      background: #fffaf0;
+      border-radius: 15px;
+    }
+
+    .fact strong {
+      display: block;
+      color: #b87419;
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+    }
+
+    /* Statistiky */
+    .stats {
+      background: #3d2b1f;
+      color: white;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      text-align: center;
+      gap: 20px;
+    }
+
+    .stat-number {
+      font-size: 2.8rem;
+      font-weight: bold;
+      color: #ffd166;
+    }
+
+    .stat-label {
+      color: #eadfd5;
+    }
+
+    /* Péče */
+    .care {
+      background: #fffaf0;
+    }
+
+    .care-list {
+      max-width: 850px;
+      margin: auto;
+      display: grid;
+      gap: 15px;
+    }
+
+    .care-item {
+      background: white;
+      padding: 20px 25px;
+      border-radius: 15px;
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      box-shadow: 0 5px 20px rgba(85, 58, 35, 0.06);
+    }
+
+    .check {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      background: #f6c453;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* CTA */
+    .cta {
+      text-align: center;
+      background: linear-gradient(135deg, #f6c453, #e99c30);
+      color: white;
+    }
+
+    .cta h2 {
+      font-size: 2.7rem;
+      margin-bottom: 15px;
+    }
+
+    .cta p {
+      max-width: 650px;
+      margin: 0 auto 25px;
+    }
+
+    /* Footer */
+    footer {
+      background: #291c14;
+      color: #cdbeb2;
+      text-align: center;
+      padding: 30px;
+    }
+
+    footer strong {
+      color: #ffd166;
+    }
+
+    /* Responzivita */
+    @media (max-width: 800px) {
+      nav {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      nav ul {
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .about-container {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .hero h1 {
+        font-size: 3.3rem;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+
+      .facts {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 65px 5%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navigace -->
+  <nav>
+    <div class="logo">🐾 Zlatý retriever</div>
+
+    <ul>
+      <li><a href="#domu">Domů</a></li>
+      <li><a href="#plemeno">Plemeno</a></li>
+      <li><a href="#povaha">Povaha</a></li>
+      <li><a href="#pece">Péče</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero" id="domu">
+    <div class="hero-content">
+      <h1>Zlatý retriever</h1>
+
+      <p>
+        Přátelský, chytrý a oddaný pes, který dokáže být skvělým
+        rodinným parťákem i aktivním společníkem.
+      </p>
+
+      <a href="#plemeno" class="button">
+        Poznat plemeno ↓
+      </a>
+    </div>
+  </header>
+
+  <!-- O plemeni -->
+  <section class="about" id="plemeno">
+    <div class="section-title">
+      <h2>O zlatém retrieverovi</h2>
+      <p>Jedno z nejoblíbenějších psích plemen na světě.</p>
+    </div>
+
+    <div class="about-container">
+
+      <div class="about-box">
+        <h3>🐕 Oddaný společník</h3>
+        <br>
+
+        <p>
+          Zlatý retriever je známý svou přátelskou povahou,
+          inteligencí a ochotou spolupracovat s člověkem.
+          Díky své vyrovnanosti se často uplatňuje jako
+          rodinný pes, pracovní pes nebo asistenční pes.
+        </p>
+      </div>
+
+      <div class="facts">
+        <div class="fact">
+          <strong>Původ</strong>
+          Velká Británie
+        </div>
+
+        <div class="fact">
+          <strong>Velikost</strong>
+          Střední až velká
+        </div>
+
+        <div class="fact">
+          <strong>Srst</strong>
+          Dlouhá, zlatavá
+        </div>
+
+        <div class="fact">
+          <strong>Povaha</strong>
+          Přátelská a společenská
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Statistiky -->
+  <section class="stats">
+    <div>
+      <div class="stat-number">🐾</div>
+      <div class="stat-label">Společenský</div>
+    </div>
+
+    <div>
+      <div class="stat-number">🧠</div>
+      <div class="stat-label">Inteligentní</div>
+    </div>
+
+    <div>
+      <div class="stat-number">❤️</div>
+      <div class="stat-label">Oddaný</div>
+    </div>
+
+    <div>
+      <div class="stat-number">⚡</div>
+      <div class="stat-label">Aktivní</div>
+    </div>
+  </section>
+
+  <!-- Povaha -->
+  <section id="povaha">
+    <div class="section-title">
+      <h2>Proč si ho lidé zamilují?</h2>
+      <p>Jeho charakter je jedním z jeho největších předností.</p>
+    </div>
+
+    <div class="cards">
+
+      <div class="card">
+        <div class="card-icon">❤️</div>
+        <h3>Přátelský</h3>
+        <p>
+          Zlatí retrievři bývají velmi společenští a mají
+          rádi kontakt s lidmi. Často dobře vycházejí
+          také s ostatními psy.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🧠</div>
+        <h3>Chytrý</h3>
+        <p>
+          Rychle se učí nové povely a při správném
+          přístupu bývá výcvik příjemnou společnou aktivitou.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🎾</div>
+        <h3>Hravý</h3>
+        <p>
+          Miluje pohyb, aportování a hry. Je proto vhodným
+          společníkem pro aktivní rodinu.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Péče -->
+  <section class="care" id="pece">
+    <div class="section-title">
+      <h2>Jak se o něj starat?</h2>
+      <p>Zlatý retriever potřebuje nejen lásku, ale také pravidelnou péči.</p>
+    </div>
+
+    <div class="care-list">
+
+      <div class="care-item">
+        <div class="check">✓</div>
+        <div>
+          <strong>Pravidelný pohyb</strong><br>
+          Procházky, hry a další vhodné aktivity pomáhají udržovat psa v kondici.
+        </div>
+      </div>
+
+      <div class="care-item">
+        <div class="check">✓</div>
+        <div>
+          <strong>Česání srsti</strong><br>
+          Hustá srst vyžaduje pravidelné kartáčování, zejména v období línání.
+        </div>
+      </div>
+
+      <div class="care-item">
+        <div class="check">✓</div>
+        <div>
+          <strong>Vyvážená strava</strong><br>
+          Krmivo by mělo odpovídat věku, velikosti, aktivitě a zdravotním potřebám psa.
+        </div>
+      </div>
+
+      <div class="care-item">
+        <div class="check">✓</div>
+        <div>
+          <strong>Výcvik a socializace</strong><br>
+          Pozitivní a důsledný přístup pomáhá vytvořit dobře vychovaného společníka.
+        </div>
+      </div>
+
+      <div class="care-item">
+        <div class="check">✓</div>
+        <div>
+          <strong>Veterinární péče</strong><br>
+          Pravidelné preventivní kontroly jsou důležitou součástí péče o psa.
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <h2>Život se zlatým retrieverem 🐾</h2>
+
+    <p>
+      Spousta pohybu, her, chlupů na oblečení a především
+      věrný parťák, který chce být součástí každého dobrodružství.
+    </p>
+
+    <a href="#domu" class="button">
+      Zpět nahoru ↑
+    </a>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>
+      Vytvořeno s <strong>♥</strong> pro milovníky zlatých retrieverů.
+    </p>
+
+    <p>
+      © 2026 Zlatý retriever - this page was created as sample using AI (ChatGPT)
+    </p>
+  </footer>
+
+</body>
+</html>
